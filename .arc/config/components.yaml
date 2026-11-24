@@ -1,0 +1,26 @@
+version: 2
+components:
+  comp_source:
+    name: Source
+    repo_ref: conn-github-13fc9062ff7c47789d305f83f9a3997e
+    kind: api_service
+    directory: .
+    integrations:
+    - to: comp_relational_database
+      interaction: sync
+      via: postgresql
+      status: planned
+      evidence: src/prisma/prisma-client.ts
+      label: SQL
+    zone: application
+    rule: Server-side business logic and data access live in this service and are
+      exposed to clients only through its API.
+    adr: ADR-0001
+  comp_relational_database:
+    name: Relational Database
+    repo_ref: conn-github-13fc9062ff7c47789d305f83f9a3997e
+    kind: infrastructure
+    zone: data
+    rule: Only the Source service reads or writes the database, and schema changes
+      go through Prisma migrations.
+    adr: ADR-0002
